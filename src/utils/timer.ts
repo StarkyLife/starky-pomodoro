@@ -1,17 +1,20 @@
-import { getMillisecondsForMinutes, getMillisecondsForSeconds } from './time';
+import { getMillisecondsForSeconds } from './time';
 
-export const startTimer = (onTick: (tick: number) => void, onFinish: () => void, countDownInMin: number) => {
-  let tick = 0;
+export const startTimer = (
+  onTick: (remainingTimeInSeconds: number) => void,
+  onFinish: () => void,
+  countDownInSeconds: number,
+) => {
+  let remainingTime = countDownInSeconds
 
-  const interval = setInterval(() => onTick(tick++), getMillisecondsForSeconds(1));
+  const interval = setInterval(() => onTick(--remainingTime), getMillisecondsForSeconds(1));
   const timeout = setTimeout(() => {
     clearInterval(interval);
     onFinish();
-  }, getMillisecondsForMinutes(countDownInMin));
+  }, getMillisecondsForSeconds(countDownInSeconds));
 
   return () => {
     clearInterval(interval);
     clearTimeout(timeout);
-    onFinish();
   };
 };
