@@ -15,6 +15,6 @@ export const getNextPhase = (
     (options.currentPhaseType === 'work' && options.isStopped);
 
   return isWorkPhaseNext
-    ? { type: 'work', countDown: getSecondsForMinutes(25) }
+    ? { type: 'work', countDown: getSecondsForMinutes(1) }
     : { type: 'rest', countDown: getSecondsForMinutes(5) };
 };

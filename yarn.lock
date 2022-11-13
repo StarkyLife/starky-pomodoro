@@ -3775,6 +3775,18 @@ ee-first@1.1.1:
   resolved "https://registry.yarnpkg.com/ee-first/-/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
   integrity sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==
 
+effector-react@^22.3.4:
+  version "22.3.4"
+  resolved "https://registry.yarnpkg.com/effector-react/-/effector-react-22.3.4.tgz#d9020eeb0203729833472807f76d90b180b05b63"
+  integrity sha512-iyPMjnIW7pUoSuvxumAu4oRan4d8sbXmYPTlRXR75HOag2aH805m+xElyhyXCsQMXxQebjk7/GSC8Caeriv/+A==
+  dependencies:
+    use-sync-external-store "^1.0.0"
+
+effector@^22.4.0:
+  version "22.4.0"
+  resolved "https://registry.yarnpkg.com/effector/-/effector-22.4.0.tgz#6f94352d30268f644321892167ebe52ebc3e70a6"
+  integrity sha512-WQ0rboUp1fvkzo2rPymtWzR9isUl8v9McGvBA4g8zvQaTgZnXQ1iCbNj2S54bADGpSNl1CYv1/61vvdbc5Goyw==
+
 ejs@^3.1.6:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-3.1.8.tgz#758d32910c78047585c7ef1f92f9ee041c1c190b"
@@ -8635,6 +8647,11 @@ url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+use-sync-external-store@^1.0.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
