@@ -5,16 +5,15 @@ export const startTimer = (
   onFinish: () => void,
   countDownInSeconds: number,
 ) => {
-  let remainingTime = countDownInSeconds
+  let remainingTime = countDownInSeconds;
 
-  const interval = setInterval(() => onTick(--remainingTime), getMillisecondsForSeconds(1));
-  const timeout = setTimeout(() => {
-    clearInterval(interval);
-    onFinish();
-  }, getMillisecondsForSeconds(countDownInSeconds));
+  const interval = setInterval(() => {
+    onTick(--remainingTime);
+    if (remainingTime <= 0) {
+      clearInterval(interval);
+      onFinish();
+    }
+  }, getMillisecondsForSeconds(1));
 
-  return () => {
-    clearInterval(interval);
-    clearTimeout(timeout);
-  };
+  return () => clearInterval(interval);
 };
