@@ -1,22 +1,38 @@
 import * as O from 'fp-ts/Option';
+import { pipe } from 'fp-ts/function';
 
-import { createEvent, createStore } from 'effector';
+import { combine, createEvent, createStore, sample } from 'effector';
 import { getNextPhase } from '../use-cases/pomodoro';
-
-export const $currentPomodoroPhase = createStore(getNextPhase());
-export const $currentPomodoroStartTime = createStore<O.Option<Date>>(O.none);
+import { rememberPomodoroPhase } from '../use-cases/remember-pomodoro';
+import { PomodoroPhase } from '../core/types/pomodoro';
 
 export const pomodoroPhaseFinished = createEvent();
 export const pomodoroPhaseStopped = createEvent();
 export const pomodoroPhaseStarted = createEvent();
+export const nextPhaseInitiated = createEvent<PomodoroPhase>();
 
-$currentPomodoroPhase.on(pomodoroPhaseFinished, (currentPhase) =>
-  getNextPhase({ currentPhaseType: currentPhase.type }),
-);
-$currentPomodoroPhase.on(pomodoroPhaseStopped, (currentPhase) =>
-  getNextPhase({ currentPhaseType: currentPhase.type, isStopped: true }),
-);
+export const $currentPomodoroPhase = createStore(getNextPhase())
+  .on(nextPhaseInitiated, (_, nextPhase) => nextPhase);
+export const $currentPomodoroStartTime = createStore<O.Option<Date>>(O.none)
+  .on(pomodoroPhaseStarted, () => O.some(new Date()))
+  .reset(nextPhaseInitiated);
 
-$currentPomodoroStartTime.on(pomodoroPhaseStarted, () => O.some(new Date()));
+sample({
+  clock: pomodoroPhaseFinished,
+  source: combine([$currentPomodoroPhase, $currentPomodoroStartTime]),
+  fn: ([currentPhase, startTime]) =>
+    pipe(
+      startTime,
+      // TODO: передать реальную функцию
+      O.map((time) => rememberPomodoroPhase(() => {}, currentPhase.type, time)),
+      () => getNextPhase({ currentPhaseType: currentPhase.type }),
+    ),
+  target: nextPhaseInitiated,
+});
 
-// TODO: onStop or onFinish -> rememberPhase -> reset startTime store -> getNextPhase
+sample({
+  clock: pomodoroPhaseStopped,
+  source: $currentPomodoroPhase,
+  fn: (currentPhase) => getNextPhase({ currentPhaseType: currentPhase.type, isStopped: true }),
+  target: nextPhaseInitiated,
+});
