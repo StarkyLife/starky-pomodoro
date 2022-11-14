@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   $currentPomodoroPhase,
   pomodoroPhaseFinished,
+  pomodoroPhaseStarted,
   pomodoroPhaseStopped,
 } from '../../connector/pomodoro';
 import { startTimer } from '../../utils/timer';
@@ -22,6 +23,7 @@ export const Pomodoro: React.FC = () => {
       pomodoroPhaseFinished,
       currentPhase.countDown,
     );
+    pomodoroPhaseStarted();
   }, [setRemainingTime, currentPhase.countDown]);
 
   const handleStop = useCallback(() => {
