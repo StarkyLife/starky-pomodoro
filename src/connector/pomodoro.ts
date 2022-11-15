@@ -1,11 +1,12 @@
 import * as O from 'fp-ts/Option';
-import { pipe } from 'fp-ts/function';
+import { constant, pipe } from 'fp-ts/function';
 
 import { combine, createEvent, createStore, sample } from 'effector';
 import { getNextPhase } from '../use-cases/pomodoro';
 import { rememberPomodoroPhase } from '../use-cases/remember-pomodoro';
 import { PomodoroPhase } from '../core/types/pomodoro';
 import { pomodorosStorage } from '../devices/pomodoros-storage';
+import { showStatistics } from '../use-cases/show-statistics';
 
 // NOTE: connector is our main
 
@@ -30,6 +31,10 @@ export const $currentPomodoroPhase = createStore(getNextPhase()).on(
 export const $currentPomodoroStartTime = createStore<O.Option<Date>>(O.none)
   .on(pomodoroPhaseStarted, () => O.some(new Date()))
   .reset(nextPhaseInitiated);
+export const $statistics = combine([$currentPomodoroPhase, $currentPomodoroStartTime]).map(
+  ([currentPhase, startTime]) =>
+    showStatistics(pomodorosStorage.get, constant(currentPhase), constant(startTime))(),
+);
 
 sample({
   clock: pomodoroPhaseFinished,

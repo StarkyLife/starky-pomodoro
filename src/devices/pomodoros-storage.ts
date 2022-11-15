@@ -1,11 +1,18 @@
 import * as IO from 'fp-ts/IO';
 import * as O from 'fp-ts/Option';
+import * as A from 'fp-ts/Array';
 import { constant, pipe } from 'fp-ts/function';
 
-import { SavedPomodoroPhase } from '../core/types/pomodoro';
+import { PomodoroPhaseType, SavedPomodoroPhase } from '../core/types/pomodoro';
 
 type SavePomodoroPhaseFn = (phase: SavedPomodoroPhase) => IO.IO<void>;
 type GetPomodorosFn = () => IO.IO<SavedPomodoroPhase[]>;
+
+type ParsedPhase = {
+  type: PomodoroPhaseType;
+  startTime: string;
+  endTime: string;
+};
 
 type PomodorosStorage = {
   save: SavePomodoroPhaseFn;
@@ -20,7 +27,16 @@ const getData = () =>
     IO.map(() =>
       pipe(
         O.fromNullable(localStorage.getItem(POMODOROS_STORAGE_KEY)),
-        O.chain(O.tryCatchK((text) => JSON.parse(text) as SavedPomodoroPhase[])),
+        O.chain(O.tryCatchK((text) => JSON.parse(text) as ParsedPhase[])),
+        O.map(
+          A.map(
+            (phase): SavedPomodoroPhase => ({
+              ...phase,
+              startTime: new Date(phase.startTime),
+              endTime: new Date(phase.endTime),
+            }),
+          ),
+        ),
         O.getOrElse(constant<SavedPomodoroPhase[]>([])),
       ),
     ),

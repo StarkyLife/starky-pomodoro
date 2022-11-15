@@ -1,23 +1,71 @@
 import * as O from 'fp-ts/Option';
+import * as IO from 'fp-ts/IO';
 
-import { StatisticsItem } from '../core/types/pomodoro';
+import { PomodoroPhase, SavedPomodoroPhase } from '../core/types/pomodoro';
 import { showStatistics } from './show-statistics';
 
+const createStoredPhase = (): SavedPomodoroPhase => ({
+  type: 'work',
+  startTime: new Date('2022-11-13T06:00:00.000Z'),
+  endTime: new Date('2022-11-13T06:25:00.000Z'),
+});
+const createPomodoroPhase = (): PomodoroPhase => ({
+  type: 'rest',
+  countDown: 1,
+});
+
+const callUseCase = (
+  storedPhases: SavedPomodoroPhase[],
+  activePhase: PomodoroPhase,
+  startTime: O.Option<Date>,
+) => {
+  const getStoredPhases = jest.fn().mockReturnValue(IO.of(storedPhases));
+  const getCurrentActivePhase = jest.fn().mockReturnValue(activePhase);
+  const getActivePhaseStartTime = jest.fn().mockReturnValue(startTime);
+
+  return showStatistics(getStoredPhases, getCurrentActivePhase, getActivePhaseStartTime)();
+};
+
 it('should show all finished and current pomodoros', () => {
-  const finishedPhases: StatisticsItem[] = [
+  const storedPhase = createStoredPhase();
+  const activePhase = createPomodoroPhase();
+  const startTime = new Date('2022-11-13T06:25:00.000Z');
+
+  const statistics = callUseCase(
+    [storedPhase],
+    activePhase,
+    O.some(startTime)
+  );
+
+  expect(statistics).toEqual([
     {
-      phaseType: 'work',
-      startTime: new Date('2022-11-13T06:00:00.000Z'),
-      endTime: O.some(new Date('2022-11-13T06:25:00.000Z')),
+      phaseType: storedPhase.type,
+      startTime: storedPhase.startTime,
+      endTime: O.some(storedPhase.endTime),
     },
-  ];
-  const activePhase: StatisticsItem = {
-    phaseType: 'rest',
-    startTime: new Date('2022-11-13T06:25:00.000Z'),
-    endTime: O.none,
-  };
+    {
+      phaseType: activePhase.type,
+      startTime,
+      endTime: O.none,
+    },
+  ]);
+});
 
-  const statistics = showStatistics();
+it('should show only finished if active one is not started', () => {
+  const storedPhase = createStoredPhase();
+  const activePhase = createPomodoroPhase();
 
-  expect(statistics).toEqual([...finishedPhases, activePhase]);
+  const statistics = callUseCase(
+    [storedPhase],
+    activePhase,
+    O.none
+  );
+
+  expect(statistics).toEqual([
+    {
+      phaseType: storedPhase.type,
+      startTime: storedPhase.startTime,
+      endTime: O.some(storedPhase.endTime),
+    },
+  ]);
 });

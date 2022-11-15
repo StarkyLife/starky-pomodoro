@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { showStatistics } from '../../use-cases/show-statistics';
+import { useStore } from 'effector-react';
+import { $statistics } from '../../connector/pomodoro';
 
 export const Statistics: React.FC = () => {
-  const statistics = showStatistics();
+  const statistics = useStore($statistics);
 
   const [currentTime, setCurrentTime] = useState('');
 
