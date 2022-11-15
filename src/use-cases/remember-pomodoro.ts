@@ -1,7 +1,8 @@
+import * as IO from 'fp-ts/IO';
 import { PomodoroPhaseType, SavedPomodoroPhase } from '../core/types/pomodoro';
 
 export const rememberPomodoroPhase = (
-  saveFn: (item: SavedPomodoroPhase) => void,
+  saveFn: (item: SavedPomodoroPhase) => IO.IO<void>,
   pomodoroPhaseType: PomodoroPhaseType,
   pomodoroPhaseStartTime: Date,
 ) =>
