@@ -1,5 +1,5 @@
 import { getSecondsForMinutes } from '../utils/time';
-import { getNextPhase } from './pomodoro';
+import { getNextPhase } from './get-next-phase';
 
 jest.useFakeTimers();
 

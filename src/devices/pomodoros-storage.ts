@@ -4,9 +4,7 @@ import * as A from 'fp-ts/Array';
 import { constant, pipe } from 'fp-ts/function';
 
 import { PomodoroPhaseType, SavedPomodoroPhase } from '../core/types/pomodoro';
-
-type SavePomodoroPhaseFn = (phase: SavedPomodoroPhase) => IO.IO<void>;
-type GetPomodorosFn = () => IO.IO<SavedPomodoroPhase[]>;
+import { GetPomodorosFn, SavePomodoroPhaseFn } from '../use-cases/dependencies/pomodoro';
 
 type ParsedPhase = {
   type: PomodoroPhaseType;

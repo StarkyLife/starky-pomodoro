@@ -2,13 +2,11 @@ import * as O from 'fp-ts/Option';
 import { constant, pipe } from 'fp-ts/function';
 
 import { combine, createEvent, createStore, sample } from 'effector';
-import { getNextPhase } from '../use-cases/pomodoro';
+import { getNextPhase } from '../use-cases/get-next-phase';
 import { rememberPomodoroPhase } from '../use-cases/remember-pomodoro';
 import { PomodoroPhase } from '../core/types/pomodoro';
 import { pomodorosStorage } from '../devices/pomodoros-storage';
 import { showStatistics } from '../use-cases/show-statistics';
-
-// NOTE: connector is our main
 
 // TODO:
 // - currentPhase = O.Option, так как инициализация может потребовать заглянуть в localStorage,
@@ -16,8 +14,6 @@ import { showStatistics } from '../use-cases/show-statistics';
 // - initializePomodoro use case
 // - finishPomodoro use case
 // - stopPomodoro use case
-//
-// Привести в порядок типы у use-cases
 
 export const pomodoroPhaseFinished = createEvent();
 export const pomodoroPhaseStopped = createEvent();

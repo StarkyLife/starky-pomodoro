@@ -2,10 +2,11 @@ import { pipe } from 'fp-ts/function';
 import * as O from 'fp-ts/Option';
 import * as IO from 'fp-ts/IO';
 import * as A from 'fp-ts/Array';
-import { PomodoroPhase, SavedPomodoroPhase, StatisticsItem } from '../core/types/pomodoro';
+import { PomodoroPhase, StatisticsItem } from '../core/types/pomodoro';
+import { GetPomodorosFn } from './dependencies/pomodoro';
 
 export const showStatistics = (
-  getStoredPhases: () => IO.IO<SavedPomodoroPhase[]>,
+  getStoredPhases: GetPomodorosFn,
   getCurrentActivePhase: () => PomodoroPhase,
   getActivePhaseStartTime: () => O.Option<Date>,
 ) =>

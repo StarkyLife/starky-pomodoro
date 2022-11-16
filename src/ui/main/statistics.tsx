@@ -9,7 +9,7 @@ export const Statistics: React.FC = () => {
   const [currentTime, setCurrentTime] = useState('');
 
   useEffect(() => {
-    const interval = setInterval(() => setCurrentTime(format(new Date(), 'HH:mm:ss')), 1000);
+    const interval = setInterval(() => setCurrentTime(format(new Date(), 'HH:mm')), 1000);
     return () => clearInterval(interval);
   }, []);
 
