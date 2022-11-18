@@ -1,15 +1,29 @@
+import * as O from 'fp-ts/Option';
 import { useStore } from 'effector-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  $currentPomodoroPhase,
-  pomodoroPhaseFinished,
+  $pomodoroPhase,
+  finishPomodoroFx,
+  initializePomodoroFx,
   pomodoroPhaseStarted,
-  pomodoroPhaseStopped,
+  stopPomodoroPhaseFx,
 } from '../../connector/pomodoro';
+import { PomodoroPhase } from '../../core/types/pomodoro';
 import { startTimer } from '../../utils/timer';
 
 export const Pomodoro: React.FC = () => {
-  const currentPhase = useStore($currentPomodoroPhase);
+  const currentPhase = useStore($pomodoroPhase);
+
+  useEffect(() => void initializePomodoroFx(), []);
+
+  return O.isNone(currentPhase) ? (
+    <div>Loading</div>
+  ) : (
+    <PomodoroTimer currentPhase={currentPhase.value} />
+  );
+};
+
+export const PomodoroTimer: React.FC<{ currentPhase: PomodoroPhase }> = ({ currentPhase }) => {
   const [remainingTime, setRemainingTime] = useState(currentPhase.countDown);
 
   useEffect(() => setRemainingTime(currentPhase.countDown), [currentPhase]);
@@ -18,17 +32,13 @@ export const Pomodoro: React.FC = () => {
 
   const handleStart = useCallback(() => {
     stopTimerRef.current?.();
-    stopTimerRef.current = startTimer(
-      setRemainingTime,
-      pomodoroPhaseFinished,
-      currentPhase.countDown,
-    );
+    stopTimerRef.current = startTimer(setRemainingTime, finishPomodoroFx, currentPhase.countDown);
     pomodoroPhaseStarted();
   }, [setRemainingTime, currentPhase.countDown]);
 
   const handleStop = useCallback(() => {
     stopTimerRef.current?.();
-    pomodoroPhaseStopped();
+    stopPomodoroPhaseFx();
   }, []);
 
   return (

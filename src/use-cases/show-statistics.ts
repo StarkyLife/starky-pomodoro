@@ -3,11 +3,11 @@ import * as O from 'fp-ts/Option';
 import * as IO from 'fp-ts/IO';
 import * as A from 'fp-ts/Array';
 import { PomodoroPhase, StatisticsItem } from '../core/types/pomodoro';
-import { GetPomodorosFn } from './dependencies/pomodoro';
+import { GetStoredPhasesFn } from './dependencies/pomodoro';
 
 export const showStatistics = (
-  getStoredPhases: GetPomodorosFn,
-  getCurrentActivePhase: () => PomodoroPhase,
+  getStoredPhases: GetStoredPhasesFn,
+  getCurrentActivePhase: () => O.Option<PomodoroPhase>,
   getActivePhaseStartTime: () => O.Option<Date>,
 ) =>
   pipe(
@@ -25,7 +25,7 @@ export const showStatistics = (
       pipe(
         O.Do,
         O.bind('startTime', getActivePhaseStartTime),
-        O.bind('activePhase', () => O.of(getCurrentActivePhase())),
+        O.bind('activePhase', getCurrentActivePhase),
         O.fold(
           () => storedPhasesStatistics,
           ({ startTime, activePhase }) => [

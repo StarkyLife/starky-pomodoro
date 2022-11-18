@@ -5,7 +5,11 @@ export type PomodoroPhase = {
   type: PomodoroPhaseType;
   countDown: number
 };
-export type SavedPomodoroPhase = { type: PomodoroPhaseType; startTime: Date; endTime: Date };
+export type StoredPomodoroPhase = {
+  type: PomodoroPhaseType;
+  startTime: Date;
+  endTime: Date
+};
 export type StatisticsItem = {
   phaseType: PomodoroPhaseType;
   startTime: Date;

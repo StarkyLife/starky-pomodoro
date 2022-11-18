@@ -1,5 +1,5 @@
 import * as IO from 'fp-ts/IO';
-import { SavedPomodoroPhase } from '../../core/types/pomodoro';
+import { StoredPomodoroPhase } from '../../core/types/pomodoro';
 
-export type SavePomodoroPhaseFn = (phase: SavedPomodoroPhase) => IO.IO<void>;
-export type GetPomodorosFn = () => IO.IO<SavedPomodoroPhase[]>;
+export type SavePhaseFn = (phase: StoredPomodoroPhase) => IO.IO<void>;
+export type GetStoredPhasesFn = () => IO.IO<StoredPomodoroPhase[]>;

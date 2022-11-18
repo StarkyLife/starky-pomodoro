@@ -1,52 +1,52 @@
 import * as O from 'fp-ts/Option';
-import { constant, pipe } from 'fp-ts/function';
+import { constant } from 'fp-ts/function';
 
-import { combine, createEvent, createStore, sample } from 'effector';
-import { getNextPhase } from '../use-cases/get-next-phase';
-import { rememberPomodoroPhase } from '../use-cases/remember-pomodoro';
+import { attach, combine, createEffect, createEvent, createStore, sample } from 'effector';
 import { PomodoroPhase } from '../core/types/pomodoro';
-import { pomodorosStorage } from '../devices/pomodoros-storage';
+import { phasesStorage } from '../devices/phases-storage';
 import { showStatistics } from '../use-cases/show-statistics';
+import { initializePomodoroUseCase } from '../use-cases/initialize-pomodoro';
+import { finishPomodoroUseCase } from '../use-cases/finish-pomodoro';
+import { stopPomodoroUseCase } from '../use-cases/stop-pomodoro';
 
-// TODO:
-// - currentPhase = O.Option, так как инициализация может потребовать заглянуть в localStorage,
-// чтобы достать сохраненную конфигурацию
-// - initializePomodoro use case
-// - finishPomodoro use case
-// - stopPomodoro use case
+export const $pomodoroPhase = createStore<O.Option<PomodoroPhase>>(O.none);
+export const $phaseStartTime = createStore<O.Option<Date>>(O.none);
+export const $statistics = combine([$pomodoroPhase, $phaseStartTime]).map(
+  ([currentPhase, startTime]) =>
+    showStatistics(phasesStorage.get, constant(currentPhase), constant(startTime))(),
+);
+
+export const initializePomodoroFx = createEffect(initializePomodoroUseCase);
+export const finishPomodoroFx = attach({
+  source: combine([$pomodoroPhase, $phaseStartTime]),
+  effect: createEffect(([phase, startTime]: [O.Option<PomodoroPhase>, O.Option<Date>]) =>
+    finishPomodoroUseCase(phase, startTime),
+  ),
+});
+export const stopPomodoroPhaseFx = attach({
+  source: $pomodoroPhase,
+  effect: createEffect(stopPomodoroUseCase),
+});
 
 export const pomodoroPhaseFinished = createEvent();
 export const pomodoroPhaseStopped = createEvent();
 export const pomodoroPhaseStarted = createEvent();
 export const nextPhaseInitiated = createEvent<PomodoroPhase>();
 
-export const $currentPomodoroPhase = createStore(getNextPhase()).on(
-  nextPhaseInitiated,
-  (_, nextPhase) => nextPhase,
-);
-export const $currentPomodoroStartTime = createStore<O.Option<Date>>(O.none)
-  .on(pomodoroPhaseStarted, () => O.some(new Date()))
-  .reset(nextPhaseInitiated);
-export const $statistics = combine([$currentPomodoroPhase, $currentPomodoroStartTime]).map(
-  ([currentPhase, startTime]) =>
-    showStatistics(pomodorosStorage.get, constant(currentPhase), constant(startTime))(),
-);
+$pomodoroPhase.on(nextPhaseInitiated, (_, nextPhase) => O.some(nextPhase));
+$pomodoroPhase.on(initializePomodoroFx.doneData, (_, phase) => O.some(phase));
+
+$phaseStartTime.on(pomodoroPhaseStarted, () => O.some(new Date()));
+$phaseStartTime.reset(nextPhaseInitiated);
 
 sample({
-  clock: pomodoroPhaseFinished,
-  source: combine([$currentPomodoroPhase, $currentPomodoroStartTime]),
-  fn: ([currentPhase, startTime]) =>
-    pipe(
-      startTime,
-      O.map((time) => rememberPomodoroPhase(pomodorosStorage.save, currentPhase.type, time)()),
-      () => getNextPhase({ currentPhaseType: currentPhase.type }),
-    ),
+  source: finishPomodoroFx.doneData,
+  filter: Boolean,
   target: nextPhaseInitiated,
 });
 
 sample({
-  clock: pomodoroPhaseStopped,
-  source: $currentPomodoroPhase,
-  fn: (currentPhase) => getNextPhase({ currentPhaseType: currentPhase.type, isStopped: true }),
+  source: stopPomodoroPhaseFx.doneData,
+  filter: Boolean,
   target: nextPhaseInitiated,
 });

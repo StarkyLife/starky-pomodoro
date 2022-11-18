@@ -1,8 +1,8 @@
 import { PomodoroPhaseType } from '../core/types/pomodoro';
-import { SavePomodoroPhaseFn } from './dependencies/pomodoro';
+import { SavePhaseFn } from './dependencies/pomodoro';
 
 export const rememberPomodoroPhase = (
-  saveFn: SavePomodoroPhaseFn,
+  saveFn: SavePhaseFn,
   pomodoroPhaseType: PomodoroPhaseType,
   pomodoroPhaseStartTime: Date,
 ) =>

@@ -1,10 +1,10 @@
 import * as O from 'fp-ts/Option';
 import * as IO from 'fp-ts/IO';
 
-import { PomodoroPhase, SavedPomodoroPhase } from '../core/types/pomodoro';
+import { PomodoroPhase, StoredPomodoroPhase } from '../core/types/pomodoro';
 import { showStatistics } from './show-statistics';
 
-const createStoredPhase = (): SavedPomodoroPhase => ({
+const createStoredPhase = (): StoredPomodoroPhase => ({
   type: 'work',
   startTime: new Date('2022-11-13T06:00:00.000Z'),
   endTime: new Date('2022-11-13T06:25:00.000Z'),
@@ -15,8 +15,8 @@ const createPomodoroPhase = (): PomodoroPhase => ({
 });
 
 const callUseCase = (
-  storedPhases: SavedPomodoroPhase[],
-  activePhase: PomodoroPhase,
+  storedPhases: StoredPomodoroPhase[],
+  activePhase: O.Option<PomodoroPhase>,
   startTime: O.Option<Date>,
 ) => {
   const getStoredPhases = jest.fn().mockReturnValue(IO.of(storedPhases));
@@ -33,7 +33,7 @@ it('should show all finished and current pomodoros', () => {
 
   const statistics = callUseCase(
     [storedPhase],
-    activePhase,
+    O.some(activePhase),
     O.some(startTime)
   );
 
@@ -57,7 +57,7 @@ it('should show only finished if active one is not started', () => {
 
   const statistics = callUseCase(
     [storedPhase],
-    activePhase,
+    O.some(activePhase),
     O.none
   );
 
