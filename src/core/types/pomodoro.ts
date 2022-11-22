@@ -15,3 +15,7 @@ export type StatisticsItem = {
   startTime: Date;
   endTime: O.Option<Date>;
 };
+export type PomodoroConfiguration = {
+  workTime: number;
+  restTime: number;
+};

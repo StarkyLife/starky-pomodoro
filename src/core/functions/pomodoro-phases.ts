@@ -1,11 +1,10 @@
-import { getSecondsForMinutes } from '../../utils/time';
-import { PomodoroPhase } from '../types/pomodoro';
+import { PomodoroConfiguration, PomodoroPhase } from '../types/pomodoro';
 
-export const createWorkPhase = (): PomodoroPhase => ({
+export const createWorkPhase = (config: PomodoroConfiguration): PomodoroPhase => ({
   type: 'work',
-  countDown: getSecondsForMinutes(25),
+  countDown: config.workTime,
 });
-export const createRestPhase = (): PomodoroPhase => ({
+export const createRestPhase = (config: PomodoroConfiguration): PomodoroPhase => ({
   type: 'rest',
-  countDown: getSecondsForMinutes(5),
+  countDown: config.restTime,
 });
