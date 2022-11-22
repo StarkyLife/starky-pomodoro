@@ -9,6 +9,7 @@ import { initializePomodoroUseCase } from '../use-cases/initialize-pomodoro';
 import { finishPomodoroUseCase } from '../use-cases/finish-pomodoro';
 import { stopPomodoroUseCase } from '../use-cases/stop-pomodoro';
 import { getSecondsForMinutes } from '../utils/time';
+import { notificationService } from '../devices/notification-service';
 
 const CONFIG: PomodoroConfiguration = {
   workTime: getSecondsForMinutes(25),
@@ -26,7 +27,12 @@ export const initializePomodoroFx = createEffect(() => initializePomodoroUseCase
 export const finishPomodoroFx = attach({
   source: combine([$pomodoroPhase, $phaseStartTime]),
   effect: createEffect(([phase, startTime]: [O.Option<PomodoroPhase>, O.Option<Date>]) =>
-    finishPomodoroUseCase(phasesStorage.save, phase, startTime, CONFIG),
+    finishPomodoroUseCase(
+      { saveFn: phasesStorage.save, notifyFn: notificationService.notify },
+      phase,
+      startTime,
+      CONFIG,
+    ),
   ),
 });
 export const stopPomodoroPhaseFx = attach({
