@@ -32,7 +32,7 @@ export const finishPomodoroFx = attach({
       phase,
       startTime,
       CONFIG,
-    ),
+    )(),
   ),
 });
 export const stopPomodoroPhaseFx = attach({

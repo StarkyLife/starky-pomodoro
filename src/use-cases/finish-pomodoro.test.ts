@@ -24,7 +24,7 @@ const configureDependencies = () => ({
 it('should do noting if currentPhase is not set', () => {
   const deps = configureDependencies();
 
-  const nextPhase = finishPomodoroUseCase(deps, O.none, O.some(new Date()), CONFIG);
+  const nextPhase = finishPomodoroUseCase(deps, O.none, O.some(new Date()), CONFIG)();
 
   expect(nextPhase).toBeUndefined();
 });
@@ -32,7 +32,7 @@ it('should do noting if currentPhase is not set', () => {
 it('should do noting if startTime is not set', () => {
   const deps = configureDependencies();
 
-  const nextPhase = finishPomodoroUseCase(deps, O.some(createRestPhase(CONFIG)), O.none, CONFIG);
+  const nextPhase = finishPomodoroUseCase(deps, O.some(createRestPhase(CONFIG)), O.none, CONFIG)();
 
   expect(nextPhase).toBeUndefined();
 });
@@ -45,7 +45,7 @@ it('should return `work` phase given `rest` phase and notify', () => {
     O.some(createRestPhase(CONFIG)),
     O.some(new Date()),
     CONFIG,
-  );
+  )();
 
   expect(nextPhase).toEqual(createWorkPhase(CONFIG));
   expect(deps.notifyFn).toHaveBeenCalledWith('Rest is over. Time to work!');
@@ -59,7 +59,7 @@ it('should return `rest` phase given `work` phase and notify', () => {
     O.some(createWorkPhase(CONFIG)),
     O.some(new Date()),
     CONFIG,
-  );
+  )();
 
   expect(nextPhase).toEqual(createRestPhase(CONFIG));
   expect(deps.notifyFn).toHaveBeenCalledWith('Work phase is finished. Time to rest!');
@@ -74,7 +74,7 @@ it('should save finished pomodoro phase info to storage', () => {
     O.some(createWorkPhase(CONFIG)),
     O.some(pomodoroPhaseStartTime),
     CONFIG,
-  );
+  )();
 
   expect(deps.saveFn).toHaveBeenCalledWith({
     type: 'work',

@@ -1,5 +1,6 @@
 import * as O from 'fp-ts/Option';
-import { constant, pipe } from 'fp-ts/function';
+import * as IOO from 'fp-ts/IOOption';
+import { pipe } from 'fp-ts/function';
 
 import { PomodoroConfiguration, PomodoroPhase } from '../core/types/pomodoro';
 import { createRestPhase, createWorkPhase } from '../core/functions/pomodoro-phases';
@@ -18,29 +19,28 @@ export const finishPomodoroUseCase = (
   config: PomodoroConfiguration,
 ) =>
   pipe(
-    currentPhase,
-    O.chainFirst((phase) =>
+    IOO.fromOption(currentPhase),
+    IOO.chainFirst((phase) =>
       pipe(
-        startTime,
-        O.map((time) =>
+        IOO.fromOption(startTime),
+        IOO.chainIOK((time) =>
           deps.saveFn({
             type: phase.type,
             startTime: time,
             endTime: new Date(),
-          })(),
+          }),
         ),
       ),
     ),
-    O.map((phase) =>
-      pipe(
+    IOO.chainFirst((phase) =>
+      IOO.fromIO(
         deps.notifyFn(
           phase.type === 'work'
             ? 'Work phase is finished. Time to rest!'
             : 'Rest is over. Time to work!',
-        )(),
-        constant(phase),
+        ),
       ),
     ),
-    O.map((phase) => (phase.type === 'work' ? createRestPhase(config) : createWorkPhase(config))),
-    O.toUndefined,
+    IOO.map((phase) => (phase.type === 'work' ? createRestPhase(config) : createWorkPhase(config))),
+    IOO.toUndefined,
   );
