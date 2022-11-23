@@ -11,34 +11,43 @@ import { stopPomodoroUseCase } from '../use-cases/stop-pomodoro';
 import { getSecondsForMinutes } from '../utils/time';
 import { notificationService } from '../devices/notification-service';
 
-const CONFIG: PomodoroConfiguration = {
-  workTime: getSecondsForMinutes(25),
-  restTime: getSecondsForMinutes(5),
-};
-
 export const $pomodoroPhase = createStore<O.Option<PomodoroPhase>>(O.none);
 export const $phaseStartTime = createStore<O.Option<Date>>(O.none);
 export const $statistics = combine([$pomodoroPhase, $phaseStartTime]).map(
   ([currentPhase, startTime]) =>
     showStatistics(phasesStorage.get, constant(currentPhase), constant(startTime))(),
 );
+export const $workTimeConfig = createStore(getSecondsForMinutes(25));
+export const $restTimeConfig = createStore(getSecondsForMinutes(5));
+export const $config = combine<PomodoroConfiguration>({
+  workTime: $workTimeConfig,
+  restTime: $restTimeConfig,
+});
 
-export const initializePomodoroFx = createEffect(() => initializePomodoroUseCase(CONFIG));
+export const initializePomodoroFx = attach({
+  source: $config,
+  effect: createEffect((config: PomodoroConfiguration) => initializePomodoroUseCase(config)),
+});
 export const finishPomodoroFx = attach({
-  source: combine([$pomodoroPhase, $phaseStartTime]),
-  effect: createEffect(([phase, startTime]: [O.Option<PomodoroPhase>, O.Option<Date>]) =>
-    finishPomodoroUseCase(
-      { saveFn: phasesStorage.save, notifyFn: notificationService.notify },
-      phase,
-      startTime,
-      CONFIG,
-    )(),
+  source: combine([$pomodoroPhase, $phaseStartTime, $config]),
+  effect: createEffect(
+    ([phase, startTime, config]: [
+      O.Option<PomodoroPhase>,
+      O.Option<Date>,
+      PomodoroConfiguration,
+    ]) =>
+      finishPomodoroUseCase(
+        { saveFn: phasesStorage.save, notifyFn: notificationService.notify },
+        phase,
+        startTime,
+        config,
+      )(),
   ),
 });
 export const stopPomodoroPhaseFx = attach({
-  source: $pomodoroPhase,
-  effect: createEffect((currentPhase: O.Option<PomodoroPhase>) =>
-    stopPomodoroUseCase(currentPhase, CONFIG),
+  source: combine([$pomodoroPhase, $config]),
+  effect: createEffect(([currentPhase, config]: [O.Option<PomodoroPhase>, PomodoroConfiguration]) =>
+    stopPomodoroUseCase(currentPhase, config),
   ),
 });
 
@@ -46,12 +55,23 @@ export const pomodoroPhaseFinished = createEvent();
 export const pomodoroPhaseStopped = createEvent();
 export const pomodoroPhaseStarted = createEvent();
 export const nextPhaseInitiated = createEvent<PomodoroPhase>();
+export const workTimeChanged = createEvent<number>();
+export const restTimeChanged = createEvent<number>();
 
 $pomodoroPhase.on(nextPhaseInitiated, (_, nextPhase) => O.some(nextPhase));
 $pomodoroPhase.on(initializePomodoroFx.doneData, (_, phase) => O.some(phase));
 
 $phaseStartTime.on(pomodoroPhaseStarted, () => O.some(new Date()));
 $phaseStartTime.reset(nextPhaseInitiated);
+
+$workTimeConfig.on(workTimeChanged, (_, newTime) => newTime);
+$restTimeConfig.on(restTimeChanged, (_, newTime) => newTime);
+
+sample({
+  source: combine([$config, $phaseStartTime]),
+  filter: ([_, startTime]) => O.isNone(startTime),
+  target: initializePomodoroFx
+});
 
 sample({
   source: finishPomodoroFx.doneData,
