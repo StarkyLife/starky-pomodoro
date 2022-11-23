@@ -19,6 +19,8 @@ const initialize =
 
 initialize();
 
+const audio = new Audio('/notification.mp3');
+
 const notify = (text: string) =>
   pipe(
     IO.Do,
@@ -30,6 +32,7 @@ const notify = (text: string) =>
         O.fold(constVoid, constVoid),
       ),
     ),
+    IO.map(() => audio.play())
   );
 
 export const notificationService: NotificationService = {
