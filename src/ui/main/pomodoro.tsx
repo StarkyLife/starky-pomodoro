@@ -3,10 +3,10 @@ import { useStore } from 'effector-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   $pomodoroPhase,
-  finishPomodoroFx,
-  initializePomodoroFx,
   pomodoroPhaseStarted,
-  stopPomodoroPhaseFx,
+  pomodoroInitialized,
+  pomodoroPhaseStopped,
+  pomodoroPhaseFinished,
 } from '../../connector/pomodoro';
 import { PomodoroPhase } from '../../core/types/pomodoro';
 import { startTimer } from '../../utils/timer';
@@ -14,7 +14,7 @@ import { startTimer } from '../../utils/timer';
 export const Pomodoro: React.FC = () => {
   const currentPhase = useStore($pomodoroPhase);
 
-  useEffect(() => void initializePomodoroFx(), []);
+  useEffect(() => pomodoroInitialized(), []);
 
   return O.isNone(currentPhase) ? (
     <div>Loading</div>
@@ -32,13 +32,17 @@ export const PomodoroTimer: React.FC<{ currentPhase: PomodoroPhase }> = ({ curre
 
   const handleStart = useCallback(() => {
     stopTimerRef.current?.();
-    stopTimerRef.current = startTimer(setRemainingTime, finishPomodoroFx, currentPhase.countDown);
+    stopTimerRef.current = startTimer(
+      setRemainingTime,
+      pomodoroPhaseFinished,
+      currentPhase.countDown,
+    );
     pomodoroPhaseStarted();
   }, [setRemainingTime, currentPhase.countDown]);
 
   const handleStop = useCallback(() => {
     stopTimerRef.current?.();
-    stopPomodoroPhaseFx();
+    pomodoroPhaseStopped();
   }, []);
 
   return (
