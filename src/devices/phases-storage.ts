@@ -2,6 +2,7 @@ import * as IO from 'fp-ts/IO';
 import * as O from 'fp-ts/Option';
 import * as A from 'fp-ts/Array';
 import { constant, pipe } from 'fp-ts/function';
+import { isAfter, startOfDay } from 'date-fns';
 
 import { PomodoroPhaseType, StoredPomodoroPhase } from '../core/types/pomodoro';
 import { GetStoredPhasesFn, SavePhaseFn } from '../use-cases/dependencies/pomodoro';
@@ -28,6 +29,7 @@ const getData = () =>
       ),
     ),
     O.getOrElse(constant<StoredPomodoroPhase[]>([])),
+    A.filter((phase) => isAfter(phase.startTime, startOfDay(new Date()))),
     IO.of,
   );
 
