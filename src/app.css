@@ -1,0 +1,74 @@
+.statistics {
+  position: fixed;
+  top: 0;
+  left: 32px;
+  right: 32px;
+
+  box-shadow: 2px 2px 18px gray;
+  border-radius: 0 0 8px 8px;
+}
+
+.statistics__toggler {
+  width: 100%;
+  border: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.configuration {
+  position: fixed;
+  left: 0;
+  top: 32px;
+  bottom: 32px;
+  display: flex;
+
+  box-shadow: 2px 2px 18px gray;
+  border-radius: 0 8px 8px 0;
+}
+
+.configuration__toggler {
+  height: 100%;
+  border: none;
+  border-radius: 0 8px 8px 0;
+}
+
+[class^="configuration__form"] {
+  display: flex;
+  flex-direction: column;
+}
+
+.configuration__form--hidden {
+  display: none;
+}
+
+.pomodoro {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer {
+  width: 300px;
+  height: 300px;
+
+  border-radius: 50%;
+  box-shadow: 2px 2px 18px gray;
+  border: none;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer::before {
+  position: absolute;
+  content: '';
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  box-shadow: 2px 2px 18px gray;
+}
+
+.timer:active {
+  box-shadow: inset 2px 2px 18px gray;
+}
