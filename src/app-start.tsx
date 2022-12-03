@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Pomodoro } from './ui/main/pomodoro';
+
 import './app.css';
 
 export const App: React.FC = () => (
@@ -23,11 +25,7 @@ export const App: React.FC = () => (
     </section>
 
     <section className="pomodoro">
-      <button className="timer">
-        <span className="timer__label">24</span>
-        <span className="timer__divider">:</span>
-        <span className="timer__label">05</span>
-      </button>
+      <Pomodoro />
     </section>
   </main>
 );

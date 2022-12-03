@@ -10,6 +10,7 @@ import {
 } from '../../connector/pomodoro';
 import { PomodoroPhase } from '../../core/types/pomodoro';
 import { startTimer } from '../../utils/timer';
+import { getTimeText } from '../../utils/time';
 
 export const Pomodoro: React.FC = () => {
   const currentPhase = useStore($pomodoroPhase);
@@ -30,27 +31,32 @@ export const PomodoroTimer: React.FC<{ currentPhase: PomodoroPhase }> = ({ curre
 
   const stopTimerRef = useRef<(() => void) | undefined>(undefined);
 
-  const handleStart = useCallback(() => {
-    stopTimerRef.current?.();
-    stopTimerRef.current = startTimer(
-      setRemainingTime,
-      pomodoroPhaseFinished,
-      currentPhase.countDown,
-    );
-    pomodoroPhaseStarted();
-  }, [setRemainingTime, currentPhase.countDown]);
-
-  const handleStop = useCallback(() => {
-    stopTimerRef.current?.();
-    pomodoroPhaseStopped();
+  const handleFinish = useCallback(() => {
+    stopTimerRef.current = undefined;
+    pomodoroPhaseFinished();
   }, []);
 
+  const handleClick = useCallback(() => {
+    if (stopTimerRef.current) {
+      stopTimerRef.current();
+      stopTimerRef.current = undefined;
+      pomodoroPhaseStopped();
+    } else {
+      stopTimerRef.current = startTimer(
+        setRemainingTime,
+        handleFinish,
+        currentPhase.countDown,
+      );
+      pomodoroPhaseStarted();
+    }
+  }, [setRemainingTime, currentPhase.countDown, handleFinish]);
+
+  const { minutes, seconds } = getTimeText(remainingTime);
+
   return (
-    <div>
-      <p>{currentPhase.type}</p>
-      <p>{remainingTime}</p>
-      <button onClick={handleStart}>Start</button>
-      <button onClick={handleStop}>Stop</button>
-    </div>
+    <button className="timer" onClick={handleClick}>
+      <div>{currentPhase.type}</div>
+      <div>{minutes}:{seconds}</div>
+    </button>
   );
 };
