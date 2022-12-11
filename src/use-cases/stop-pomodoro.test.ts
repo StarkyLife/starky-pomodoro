@@ -8,16 +8,31 @@ const CONFIG: PomodoroConfiguration = {
   restTime: 5,
 };
 
+it('should stop timer', () => {
+  const stopTimer = jest.fn();
+
+  stopPomodoroUseCase({ stopTimer: () => stopTimer }, O.none, CONFIG)();
+
+  expect(stopTimer).toHaveBeenCalled();
+});
+
 it('should do nothing if currentPhase is not set', () => {
-  const nextPhase = stopPomodoroUseCase(O.none, CONFIG);
+  const stopTimer = jest.fn();
+
+  const nextPhase = stopPomodoroUseCase({ stopTimer: () => stopTimer }, O.none, CONFIG)();
 
   expect(nextPhase).toBeUndefined();
 });
 
 it('should return next phase', () => {
+  const stopTimer = jest.fn();
   const currentPhase = createRestPhase(CONFIG);
 
-  const nextPhase = stopPomodoroUseCase(O.some(currentPhase), CONFIG);
+  const nextPhase = stopPomodoroUseCase(
+    { stopTimer: () => stopTimer },
+    O.some(currentPhase),
+    CONFIG,
+  )();
 
   expect(nextPhase).toEqual(createWorkPhase(CONFIG));
 });
