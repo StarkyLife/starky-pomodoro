@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { useStore } from 'effector-react';
-import { $statistics } from '../../connector/pomodoro';
+import { $statistics } from '../../connector';
 
 export const Statistics: React.FC = () => {
   const statistics = useStore($statistics);

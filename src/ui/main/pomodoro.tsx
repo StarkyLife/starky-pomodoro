@@ -2,11 +2,11 @@ import * as O from 'fp-ts/Option';
 import { useStore } from 'effector-react';
 import React, { useCallback, useEffect } from 'react';
 import {
-  $pomodoroPhase,
   pomodoroInitialized,
-  $remainingTime,
   timerClicked,
-} from '../../connector/pomodoro';
+  $pomodoroPhase,
+  $remainingTime,
+} from '../../connector';
 import { getTimeText } from '../../utils/time';
 
 import { PomodoroPhase } from '../../core/types/pomodoro';

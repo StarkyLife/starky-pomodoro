@@ -1,11 +1,11 @@
 import { useStore } from 'effector-react';
 import React, { useCallback } from 'react';
 import {
-  $restTimeConfig,
-  $workTimeConfig,
   restTimeChanged,
   workTimeChanged,
-} from '../../connector/pomodoro';
+  $restTimeConfig,
+  $workTimeConfig,
+} from '../../connector';
 
 export const PomodoroConfiguration: React.FC = () => {
   const work = useStore($workTimeConfig);
