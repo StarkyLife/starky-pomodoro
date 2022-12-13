@@ -8,13 +8,14 @@ import { stopPomodoroUseCase } from '../use-cases/stop-pomodoro';
 import { StartTimerFn, StopTimerFn } from '../use-cases/dependencies/timer';
 import { SavePhaseFn } from '../use-cases/dependencies/pomodoro';
 import { NotifyFn } from '../use-cases/dependencies/notification';
+import { getSecondsForMinutes } from '../utils/time';
 
 export const initializePomodoroFx = createEffect((config: PomodoroConfiguration) =>
   initializePomodoroUseCase(config),
 );
 export const startPomodoroFx = createEffect(
   ({ startTimer, countDown }: { startTimer: StartTimerFn; countDown: number }) =>
-    startTimer(countDown)(),
+    startTimer(getSecondsForMinutes(countDown))(),
 );
 export const finishPomodoroFx = createEffect(
   ({

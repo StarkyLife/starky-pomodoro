@@ -6,10 +6,11 @@ import {
   timerClicked,
   $pomodoroPhase,
   $remainingTime,
-} from '../../connector';
-import { getTimeText } from '../../utils/time';
+} from '../../../connector';
+import { getTimeText } from '../../../utils/time';
+import { PomodoroPhase } from '../../../core/types/pomodoro';
 
-import { PomodoroPhase } from '../../core/types/pomodoro';
+import './styles.css';
 
 export const Pomodoro: React.FC = () => {
   const currentPhase = useStore($pomodoroPhase);

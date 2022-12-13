@@ -2,7 +2,6 @@ import * as O from 'fp-ts/Option';
 import { constant } from 'fp-ts/function';
 import { combine, createStore } from 'effector';
 
-import { getSecondsForMinutes } from '../utils/time';
 import { PomodoroConfiguration, PomodoroPhase } from '../core/types/pomodoro';
 import { showStatistics } from '../use-cases/show-statistics';
 import { phasesStorage } from '../devices/phases-storage';
@@ -16,8 +15,8 @@ export const $statistics = combine([$pomodoroPhase, $phaseStartTime]).map(
   ([currentPhase, startTime]) =>
     showStatistics(phasesStorage.get, constant(currentPhase), constant(startTime))(),
 );
-export const $workTimeConfig = createStore(getSecondsForMinutes(25));
-export const $restTimeConfig = createStore(getSecondsForMinutes(5));
+export const $workTimeConfig = createStore(25);
+export const $restTimeConfig = createStore(5);
 export const $config = combine<PomodoroConfiguration>({
   workTime: $workTimeConfig,
   restTime: $restTimeConfig,

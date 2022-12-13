@@ -2,6 +2,7 @@ import * as O from 'fp-ts/Option';
 import { constant, identity, pipe } from 'fp-ts/function';
 import { combine, sample, split } from 'effector';
 
+import { getSecondsForMinutes } from '../utils/time';
 import { phasesStorage } from '../devices/phases-storage';
 import { timerWorkerGatewayFactory } from '../devices/timer';
 import { notificationService } from '../devices/notification-service';
@@ -40,7 +41,7 @@ $phaseStartTime.reset(nextPhaseInitiated);
 $remainingTime.on($pomodoroPhase, (_, phase) =>
   pipe(
     phase,
-    O.fold(constant(0), ({ countDown }) => countDown),
+    O.fold(constant(0), ({ countDown }) => getSecondsForMinutes(countDown)),
   ),
 );
 $remainingTime.on(timerTicked, (_, remainingTime) => remainingTime);
@@ -70,7 +71,9 @@ split({
   match: ([phase, remainingTime]) =>
     pipe(
       phase,
-      O.map(({ countDown }) => (countDown > remainingTime ? 'stop' : 'start')),
+      O.map(({ countDown }) =>
+        getSecondsForMinutes(countDown) > remainingTime ? 'stop' : 'start',
+      ),
       O.fold(constant('skip'), identity),
     ),
   cases: {
