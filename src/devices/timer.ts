@@ -1,11 +1,8 @@
 import * as IO from 'fp-ts/IO';
 import { pipe } from 'fp-ts/function';
-import workerFactory from './timer-worker';
 import { StopTimerFn } from '../use-cases/dependencies/timer';
 
-const code = workerFactory.toString();
-const blob = new Blob([`(${code})()`]);
-const worker = new Worker(URL.createObjectURL(blob));
+const worker = new Worker(new URL('./timer.worker', import.meta.url));
 
 type TickWatcherFn = (tick: number) => void;
 type FinishWatcherFn = () => void;
