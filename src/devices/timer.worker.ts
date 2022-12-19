@@ -4,6 +4,7 @@ const startTimer = (
   countDownInSeconds: number
 ) => {
   let remainingTime = countDownInSeconds;
+  onTick(--remainingTime);
 
   const interval = setInterval(() => {
     onTick(--remainingTime);
