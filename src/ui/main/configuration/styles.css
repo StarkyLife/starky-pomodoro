@@ -12,7 +12,7 @@
 }
 
 .configuration__toggler {
-  pointer: cursor;
+  cursor: pointer;
   height: 100%;
   border: none;
   border-radius: 0 8px 8px 0;
