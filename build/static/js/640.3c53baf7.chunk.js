@@ -1,0 +1,2 @@
+!function(){"use strict";var n,t=function(n){return function(n,t,a){var e=a;n(--e);var r=setInterval((function(){n(--e),e<=0&&(clearInterval(r),t())}),1e3);return function(){return clearInterval(r)}}((function(n){postMessage(["Tick",n])}),(function(){postMessage(["Finish"])}),n)};onmessage=function(a){var e;("Start"===a.data[0]&&(n=t(a.data[1])),"Stop"===a.data[0])&&(null===(e=n)||void 0===e||e())}}();
+//# sourceMappingURL=640.3c53baf7.chunk.js.map
