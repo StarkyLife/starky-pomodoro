@@ -17,7 +17,7 @@ const createPomodoroPhase = (): PomodoroPhase => ({
 const callUseCase = (
   storedPhases: StoredPomodoroPhase[],
   activePhase: O.Option<PomodoroPhase>,
-  startTime: O.Option<Date>,
+  startTime: O.Option<Date>
 ) => {
   const getStoredPhases = jest.fn().mockReturnValue(IO.of(storedPhases));
   const getCurrentActivePhase = jest.fn().mockReturnValue(activePhase);
@@ -31,11 +31,7 @@ it('should show all finished and current pomodoros', () => {
   const activePhase = createPomodoroPhase();
   const startTime = new Date('2022-11-13T06:25:00.000Z');
 
-  const statistics = callUseCase(
-    [storedPhase],
-    O.some(activePhase),
-    O.some(startTime)
-  );
+  const statistics = callUseCase([storedPhase], O.some(activePhase), O.some(startTime));
 
   expect(statistics).toEqual([
     {
@@ -55,11 +51,7 @@ it('should show only finished if active one is not started', () => {
   const storedPhase = createStoredPhase();
   const activePhase = createPomodoroPhase();
 
-  const statistics = callUseCase(
-    [storedPhase],
-    O.some(activePhase),
-    O.none
-  );
+  const statistics = callUseCase([storedPhase], O.some(activePhase), O.none);
 
   expect(statistics).toEqual([
     {

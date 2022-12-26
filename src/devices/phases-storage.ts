@@ -25,12 +25,12 @@ const getData = () =>
           ...phase,
           startTime: new Date(phase.startTime),
           endTime: new Date(phase.endTime),
-        }),
-      ),
+        })
+      )
     ),
     O.getOrElse(constant<StoredPomodoroPhase[]>([])),
     A.filter((phase) => isAfter(phase.startTime, startOfDay(new Date()))),
-    IO.of,
+    IO.of
   );
 
 export const phasesStorage: {
@@ -41,7 +41,7 @@ export const phasesStorage: {
     pipe(
       getData(),
       IO.map((savedPhases) => JSON.stringify([...savedPhases, phase])),
-      IO.map((phasesText) => localStorage.setItem(PHASES_STORAGE_KEY, phasesText)),
+      IO.map((phasesText) => localStorage.setItem(PHASES_STORAGE_KEY, phasesText))
     ),
   get: getData,
 };

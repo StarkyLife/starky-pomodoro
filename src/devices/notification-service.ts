@@ -13,7 +13,7 @@ const initialize =
   Notification.permission === 'default'
     ? pipe(
         TE.tryCatch(() => Notification.requestPermission(), E.toError),
-        TE.map(constVoid),
+        TE.map(constVoid)
       )
     : TE.of<Error, void>(constVoid());
 
@@ -29,8 +29,8 @@ const notify = (text: string) =>
         Notification.permission,
         O.fromPredicate((permission) => permission === 'granted'),
         O.map(() => new Notification(text)),
-        O.fold(constVoid, constVoid),
-      ),
+        O.fold(constVoid, constVoid)
+      )
     ),
     IO.map(() => audio.play())
   );

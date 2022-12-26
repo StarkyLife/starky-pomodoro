@@ -16,7 +16,7 @@ export const finishPomodoroUseCase = (
   deps: FinishPomodoroUseCaseDeps,
   currentPhase: O.Option<PomodoroPhase>,
   startTime: O.Option<Date>,
-  config: PomodoroConfiguration,
+  config: PomodoroConfiguration
 ) =>
   pipe(
     IOO.fromOption(currentPhase),
@@ -28,19 +28,19 @@ export const finishPomodoroUseCase = (
             type: phase.type,
             startTime: time,
             endTime: new Date(),
-          }),
-        ),
-      ),
+          })
+        )
+      )
     ),
     IOO.chainFirst((phase) =>
       IOO.fromIO(
         deps.notifyFn(
           phase.type === 'work'
             ? 'Work phase is finished. Time to rest!'
-            : 'Rest is over. Time to work!',
-        ),
-      ),
+            : 'Rest is over. Time to work!'
+        )
+      )
     ),
     IOO.map((phase) => (phase.type === 'work' ? createRestPhase(config) : createWorkPhase(config))),
-    IOO.toUndefined,
+    IOO.toUndefined
   );

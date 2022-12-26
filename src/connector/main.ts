@@ -41,8 +41,8 @@ $phaseStartTime.reset(nextPhaseInitiated);
 $remainingTime.on($pomodoroPhase, (_, phase) =>
   pipe(
     phase,
-    O.fold(constant(0), ({ countDown }) => getSecondsForMinutes(countDown)),
-  ),
+    O.fold(constant(0), ({ countDown }) => getSecondsForMinutes(countDown))
+  )
 );
 $remainingTime.on(timerTicked, (_, remainingTime) => remainingTime);
 
@@ -72,9 +72,9 @@ split({
     pipe(
       phase,
       O.map(({ countDown }) =>
-        getSecondsForMinutes(countDown) > remainingTime ? 'stop' : 'start',
+        getSecondsForMinutes(countDown) > remainingTime ? 'stop' : 'start'
       ),
-      O.fold(constant('skip'), identity),
+      O.fold(constant('skip'), identity)
     ),
   cases: {
     start: pomodoroPhaseStarted,
@@ -90,7 +90,7 @@ sample({
     pipe(
       phase,
       O.fold(constant(0), ({ countDown }) => countDown),
-      (countDown) => ({ countDown, startTimer: timerGateway.start }),
+      (countDown) => ({ countDown, startTimer: timerGateway.start })
     ),
   target: startPomodoroFx,
 });

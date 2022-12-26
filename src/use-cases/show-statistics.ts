@@ -8,7 +8,7 @@ import { GetStoredPhasesFn } from './dependencies/pomodoro';
 export const showStatistics = (
   getStoredPhases: GetStoredPhasesFn,
   getCurrentActivePhase: () => O.Option<PomodoroPhase>,
-  getActivePhaseStartTime: () => O.Option<Date>,
+  getActivePhaseStartTime: () => O.Option<Date>
 ) =>
   pipe(
     getStoredPhases(),
@@ -18,8 +18,8 @@ export const showStatistics = (
           phaseType: storedPhase.type,
           startTime: storedPhase.startTime,
           endTime: O.some(storedPhase.endTime),
-        }),
-      ),
+        })
+      )
     ),
     IO.map((storedPhasesStatistics) =>
       pipe(
@@ -35,8 +35,8 @@ export const showStatistics = (
               startTime,
               endTime: O.none,
             },
-          ],
-        ),
-      ),
-    ),
+          ]
+        )
+      )
+    )
   );

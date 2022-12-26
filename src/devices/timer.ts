@@ -38,13 +38,13 @@ export const timerWorkerGatewayFactory = (): TimerGateway => {
       pipe(
         IO.Do,
         IO.map(() => ticksWatchers.add(watcher)),
-        IO.map(() => () => IO.of(ticksWatchers.delete(watcher))),
+        IO.map(() => () => IO.of(ticksWatchers.delete(watcher)))
       ),
     subscribeToFinish: (watcher) =>
       pipe(
         IO.Do,
         IO.map(() => finishWatchers.add(watcher)),
-        IO.map(() => () => IO.of(finishWatchers.delete(watcher))),
+        IO.map(() => () => IO.of(finishWatchers.delete(watcher)))
       ),
   };
 };

@@ -11,11 +11,11 @@ import { NotifyFn } from '../use-cases/dependencies/notification';
 import { getSecondsForMinutes } from '../utils/time';
 
 export const initializePomodoroFx = createEffect((config: PomodoroConfiguration) =>
-  initializePomodoroUseCase(config),
+  initializePomodoroUseCase(config)
 );
 export const startPomodoroFx = createEffect(
   ({ startTimer, countDown }: { startTimer: StartTimerFn; countDown: number }) =>
-    startTimer(getSecondsForMinutes(countDown))(),
+    startTimer(getSecondsForMinutes(countDown))()
 );
 export const finishPomodoroFx = createEffect(
   ({
@@ -30,7 +30,7 @@ export const finishPomodoroFx = createEffect(
     phase: O.Option<PomodoroPhase>;
     startTime: O.Option<Date>;
     config: PomodoroConfiguration;
-  }) => finishPomodoroUseCase({ saveFn: savePhase, notifyFn: notify }, phase, startTime, config)(),
+  }) => finishPomodoroUseCase({ saveFn: savePhase, notifyFn: notify }, phase, startTime, config)()
 );
 export const stopPomodoroPhaseFx = createEffect(
   ({
@@ -41,5 +41,5 @@ export const stopPomodoroPhaseFx = createEffect(
     stopTimer: StopTimerFn;
     currentPhase: O.Option<PomodoroPhase>;
     config: PomodoroConfiguration;
-  }) => stopPomodoroUseCase({ stopTimer }, currentPhase, config)(),
+  }) => stopPomodoroUseCase({ stopTimer }, currentPhase, config)()
 );

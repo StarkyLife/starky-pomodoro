@@ -13,7 +13,7 @@ export const $remainingTime = createStore(0);
 
 export const $statistics = combine([$pomodoroPhase, $phaseStartTime]).map(
   ([currentPhase, startTime]) =>
-    showStatistics(phasesStorage.get, constant(currentPhase), constant(startTime))(),
+    showStatistics(phasesStorage.get, constant(currentPhase), constant(startTime))()
 );
 export const $workTimeConfig = createStore(25);
 export const $restTimeConfig = createStore(5);

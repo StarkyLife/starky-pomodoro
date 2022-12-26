@@ -17,7 +17,7 @@ export const Statistics: React.FC = () => {
     <div>
       <p>Current time: {currentTime}</p>
       {statistics.map((item) => (
-        <p>
+        <p key={item.startTime.getTime()}>
           {item.phaseType} - {format(item.startTime, 'HH:mm')}
         </p>
       ))}

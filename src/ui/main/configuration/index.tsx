@@ -16,11 +16,11 @@ export const PomodoroConfiguration: React.FC = () => {
 
   const handleWorkTimeChanged = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => workTimeChanged(+e.target.value),
-    [],
+    []
   );
   const handleRestTimeChanged = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => restTimeChanged(+e.target.value),
-    [],
+    []
   );
 
   const [isVisible, handleToggle] = useToggle();
@@ -28,14 +28,14 @@ export const PomodoroConfiguration: React.FC = () => {
   return (
     <section className="configuration">
       <form className={`configuration__form--${isVisible ? 'visible' : 'hidden'}`}>
-        <div className="configuration__field">
-          <label>Work</label>
+        <label className="configuration__field">
+          <span>Work</span>
           <input type="number" value={work} onChange={handleWorkTimeChanged} />
-        </div>
-        <div className="configuration__field">
-          <label>Rest</label>
+        </label>
+        <label className="configuration__field">
+          <span>Rest</span>
           <input type="number" value={rest} onChange={handleRestTimeChanged} />
-        </div>
+        </label>
       </form>
       <button className="configuration__toggler" onClick={handleToggle}>
         {isVisible ? '⇦' : '⇨'}

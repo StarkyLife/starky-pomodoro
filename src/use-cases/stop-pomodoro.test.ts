@@ -31,7 +31,7 @@ it('should return next phase', () => {
   const nextPhase = stopPomodoroUseCase(
     { stopTimer: () => stopTimer },
     O.some(currentPhase),
-    CONFIG,
+    CONFIG
   )();
 
   expect(nextPhase).toEqual(createWorkPhase(CONFIG));

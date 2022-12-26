@@ -44,7 +44,7 @@ it('should return `work` phase given `rest` phase and notify', () => {
     deps,
     O.some(createRestPhase(CONFIG)),
     O.some(new Date()),
-    CONFIG,
+    CONFIG
   )();
 
   expect(nextPhase).toEqual(createWorkPhase(CONFIG));
@@ -58,7 +58,7 @@ it('should return `rest` phase given `work` phase and notify', () => {
     deps,
     O.some(createWorkPhase(CONFIG)),
     O.some(new Date()),
-    CONFIG,
+    CONFIG
   )();
 
   expect(nextPhase).toEqual(createRestPhase(CONFIG));
@@ -73,7 +73,7 @@ it('should save finished pomodoro phase info to storage', () => {
     deps,
     O.some(createWorkPhase(CONFIG)),
     O.some(pomodoroPhaseStartTime),
-    CONFIG,
+    CONFIG
   )();
 
   expect(deps.saveFn).toHaveBeenCalledWith({

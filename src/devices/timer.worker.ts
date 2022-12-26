@@ -27,7 +27,7 @@ const start = (countDown: number) => {
     () => {
       postMessage(['Finish']);
     },
-    countDown,
+    countDown
   );
 };
 

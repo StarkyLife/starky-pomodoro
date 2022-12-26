@@ -18,7 +18,7 @@
   border-radius: 0 8px 8px 0;
 }
 
-[class^="configuration__form"] {
+[class^='configuration__form'] {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@
   margin-bottom: 16px;
 }
 
-.configuration__field label {
+.configuration__field span {
   flex: 1;
 }
 

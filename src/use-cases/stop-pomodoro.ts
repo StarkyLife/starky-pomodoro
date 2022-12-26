@@ -11,9 +11,9 @@ export const stopPomodoroUseCase = (
     stopTimer: StopTimerFn;
   },
   currentPhase: O.Option<PomodoroPhase>,
-  config: PomodoroConfiguration,
+  config: PomodoroConfiguration
 ) =>
   pipe(
     deps.stopTimer(),
-    IO.map(() => pipe(currentPhase, O.map(constant(createWorkPhase(config))), O.toUndefined)),
+    IO.map(() => pipe(currentPhase, O.map(constant(createWorkPhase(config))), O.toUndefined))
   );
