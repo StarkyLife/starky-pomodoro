@@ -4,6 +4,7 @@ import * as TE from 'fp-ts/TaskEither';
 import * as E from 'fp-ts/Either';
 import { constVoid, pipe } from 'fp-ts/function';
 import { NotifyFn } from '../use-cases/dependencies/notification';
+import notificationMusicUrl from './notification.mp3';
 
 type NotificationService = {
   notify: NotifyFn;
@@ -19,7 +20,7 @@ const initialize =
 
 initialize();
 
-const audio = new Audio('/notification.mp3');
+const audio = new Audio(notificationMusicUrl);
 
 const notify = (text: string) =>
   pipe(
