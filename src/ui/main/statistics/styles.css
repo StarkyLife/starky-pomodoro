@@ -1,0 +1,48 @@
+.statistics {
+  position: fixed;
+  top: 0;
+  left: 32px;
+  right: 32px;
+
+  box-shadow: 2px 2px 18px gray;
+  border-radius: 0 0 8px 8px;
+}
+
+.statistics__toggler {
+  cursor: pointer;
+  width: 100%;
+  border: none;
+  border-radius: 0 0 8px 8px;
+}
+
+[class^='statistics__content'] {
+  padding: 16px;
+}
+
+.statistics__content--hidden {
+  display: none;
+}
+
+.timeline {
+  width: 100%;
+  height: 32px;
+  margin-top: 25px;
+
+  border-radius: 16px;
+  border: 1px solid black;
+
+  position: relative;
+}
+
+.timeline__point {
+  position: absolute;
+  top: -25%;
+  height: 150%;
+  border-right: 1px solid black;
+}
+
+.timeline__point > * {
+  position: absolute;
+  top: -50%;
+  left: -16px;
+}

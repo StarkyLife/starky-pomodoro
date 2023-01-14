@@ -1,29 +1,14 @@
 @import url('normalize.css');
 
 body {
-  font-family: "Caveat", serif;
+  font-family: 'Caveat', serif;
   font-size: 16px;
 }
 
-button, input {
+button,
+input {
   font-family: inherit;
   font-size: inherit;
-}
-
-.statistics {
-  position: fixed;
-  top: 0;
-  left: 32px;
-  right: 32px;
-
-  box-shadow: 2px 2px 18px gray;
-  border-radius: 0 0 8px 8px;
-}
-
-.statistics__toggler {
-  width: 100%;
-  border: none;
-  border-radius: 0 0 8px 8px;
 }
 
 .pomodoro {
