@@ -1,0 +1,6 @@
+.field {
+  width: 100%;
+  display: flex;
+  align-items: baseline;
+  font-size: 2rem;
+}

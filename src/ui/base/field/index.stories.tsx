@@ -1,6 +1,7 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { Input } from './index';
+import { Field } from './index';
+import { Input } from '../input';
 
 //👇 This default export determines where your story goes in the story list
 export default {
@@ -8,15 +9,16 @@ export default {
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Input',
-  component: Input,
-} as ComponentMeta<typeof Input>;
+  title: 'Field',
+  component: Field,
+} as ComponentMeta<typeof Field>;
 
 //👇 We create a “template” of how args map to rendering
-const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
+const Template: ComponentStory<typeof Field> = (args) => <Field {...args} />;
 
 export const Default = Template.bind({});
 
 Default.args = {
-  /*👇 The args you need here will depend on your component */
+  text: 'Field Label',
+  children: <Input />,
 };

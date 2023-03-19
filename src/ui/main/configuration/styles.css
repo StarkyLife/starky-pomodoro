@@ -34,21 +34,6 @@
   display: none;
 }
 
-.configuration__field {
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  font-size: 2rem;
-}
-
-.configuration__field:not(:last-child) {
-  margin-bottom: 16px;
-}
-
-.configuration__field span {
-  flex: 1;
-}
-
-.configuration__field__input {
+.configuration__input {
   width: 96px;
 }

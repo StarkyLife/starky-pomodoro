@@ -6,6 +6,7 @@ import {
   $restTimeConfig,
   $workTimeConfig,
 } from '../../../connector';
+import { Field } from '../../base/field';
 import { Input } from '../../base/input';
 import { useToggle } from '../../hooks/use-toggle';
 
@@ -23,24 +24,22 @@ export const PomodoroConfiguration: React.FC = () => {
   return (
     <section className="configuration">
       <form className={`configuration__form--${isVisible ? 'visible' : 'hidden'}`}>
-        <label className="configuration__field">
-          <span>Work</span>
+        <Field text="Work">
           <Input
-            className="configuration__field__input"
+            className="configuration__input"
             type="number"
             value={work}
             onChange={handleWorkTimeChanged}
           />
-        </label>
-        <label className="configuration__field">
-          <span>Rest</span>
+        </Field>
+        <Field text="Rest">
           <Input
-            className="configuration__field__input"
+            className="configuration__input"
             type="number"
             value={rest}
             onChange={handleRestTimeChanged}
           />
-        </label>
+        </Field>
       </form>
       <button className="configuration__toggler" onClick={handleToggle}>
         {isVisible ? '⇦' : '⇨'}
