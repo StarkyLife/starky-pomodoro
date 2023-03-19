@@ -6,6 +6,7 @@ import {
   $restTimeConfig,
   $workTimeConfig,
 } from '../../../connector';
+import { Input } from '../../base/input';
 import { useToggle } from '../../hooks/use-toggle';
 
 import './styles.css';
@@ -14,14 +15,8 @@ export const PomodoroConfiguration: React.FC = () => {
   const work = useStore($workTimeConfig);
   const rest = useStore($restTimeConfig);
 
-  const handleWorkTimeChanged = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => workTimeChanged(+e.target.value),
-    []
-  );
-  const handleRestTimeChanged = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => restTimeChanged(+e.target.value),
-    []
-  );
+  const handleWorkTimeChanged = useCallback((value: string) => workTimeChanged(+value), []);
+  const handleRestTimeChanged = useCallback((value: string) => restTimeChanged(+value), []);
 
   const [isVisible, handleToggle] = useToggle();
 
@@ -30,11 +25,21 @@ export const PomodoroConfiguration: React.FC = () => {
       <form className={`configuration__form--${isVisible ? 'visible' : 'hidden'}`}>
         <label className="configuration__field">
           <span>Work</span>
-          <input type="number" value={work} onChange={handleWorkTimeChanged} />
+          <Input
+            className="configuration__field__input"
+            type="number"
+            value={work}
+            onChange={handleWorkTimeChanged}
+          />
         </label>
         <label className="configuration__field">
           <span>Rest</span>
-          <input type="number" value={rest} onChange={handleRestTimeChanged} />
+          <Input
+            className="configuration__field__input"
+            type="number"
+            value={rest}
+            onChange={handleRestTimeChanged}
+          />
         </label>
       </form>
       <button className="configuration__toggler" onClick={handleToggle}>
