@@ -3,26 +3,10 @@
   top: 0;
   left: 32px;
   right: 32px;
-
-  box-shadow: 2px 2px 18px gray;
-  border-radius: 0 0 8px 8px;
-
-  background: white;
 }
 
-.statistics__toggler {
-  cursor: pointer;
-  width: 100%;
-  border: none;
-  border-radius: 0 0 8px 8px;
-}
-
-[class^='statistics__content'] {
+.statistics__content {
   padding: 16px;
-}
-
-.statistics__content--hidden {
-  display: none;
 }
 
 .timeline {

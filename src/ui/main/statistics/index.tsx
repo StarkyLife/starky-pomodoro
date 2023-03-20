@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { format, startOfDay, differenceInMinutes } from 'date-fns';
 import { useStore } from 'effector-react';
 import { $statistics } from '../../../connector';
-import { useToggle } from '../../hooks/use-toggle';
+import { ExpandableBlock } from '../../base/expadable-block';
 
 import './styles.css';
 
@@ -61,39 +61,36 @@ export const Statistics: React.FC = () => {
     [statistics, getDayMinutesFor]
   );
 
-  const [isVisible, handleToggle] = useToggle();
-
   return (
     <section className="statistics">
-      <div className={`statistics__content--${isVisible ? 'visible' : 'hidden'}`}>
-        <div className="timeline">
-          {fullHoursView.map(({ timeText, position }) => (
+      <ExpandableBlock direction="top-bottom">
+        <div className="statistics__content">
+          <div className="timeline">
+            {fullHoursView.map(({ timeText, position }) => (
+              <div
+                key={`full-hour-${timeText}`}
+                className="timeline__point"
+                style={{ left: `${position}%` }}
+              >
+                <span>{timeText}</span>
+              </div>
+            ))}
+            {statisticsView.map(({ className, start, end }) => (
+              <div
+                key={`stats-${start}-${end}`}
+                className={className}
+                style={{ left: `${start}%`, width: `${end - start}%` }}
+              ></div>
+            ))}
             <div
-              key={`full-hour-${timeText}`}
-              className="timeline__point"
-              style={{ left: `${position}%` }}
+              className="timeline__block"
+              style={{ left: `${getMinutesPosition(currentTimeMinutes)}%`, width: `1px` }}
             >
-              <span>{timeText}</span>
+              <span>{format(currentTime, 'HH:mm')}</span>
             </div>
-          ))}
-          {statisticsView.map(({ className, start, end }) => (
-            <div
-              key={`stats-${start}-${end}`}
-              className={className}
-              style={{ left: `${start}%`, width: `${end - start}%` }}
-            ></div>
-          ))}
-          <div
-            className="timeline__block"
-            style={{ left: `${getMinutesPosition(currentTimeMinutes)}%`, width: `1px` }}
-          >
-            <span>{format(currentTime, 'HH:mm')}</span>
           </div>
         </div>
-      </div>
-      <button className="statistics__toggler" onClick={handleToggle}>
-        {isVisible ? '⇧' : '⇩'}
-      </button>
+      </ExpandableBlock>
     </section>
   );
 };
