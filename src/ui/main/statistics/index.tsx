@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { format, startOfDay, differenceInMinutes } from 'date-fns';
 import { useStore } from 'effector-react';
 import { $statistics } from '../../../connector';
-import { ExpandableBlock } from '../../base/expadable-block';
+import { ExpandableBlock } from '../../base/expandable-block';
 
 import './styles.css';
 

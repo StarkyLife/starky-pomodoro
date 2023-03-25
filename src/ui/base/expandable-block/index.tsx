@@ -1,6 +1,11 @@
 import React, { PropsWithChildren, useCallback, useMemo, useState } from 'react';
+import { cn, createBEM } from '../../utils/classnames';
 
 import './styles.css';
+
+const blockBEM = createBEM('expandable-block');
+const contentBEM = createBEM('expandable-block__content');
+const buttonBEM = createBEM('expandable-block__button');
 
 type Direction = 'top-bottom' | 'left-right';
 
@@ -23,18 +28,9 @@ export const ExpandableBlock: React.FC<Props> = ({ className, direction, childre
   const arrow = useMemo(() => directionArrows[direction], [direction]);
 
   return (
-    <section className={`expandable-block expandable-block--${direction} ${className ?? ''}`}>
-      <div
-        className={`expandable-block__content expandable-block__content--${
-          isVisible ? 'visible' : 'hidden'
-        }`}
-      >
-        {children}
-      </div>
-      <button
-        className={`expandable-block__button expandable-block__button--${direction}`}
-        onClick={handleToggle}
-      >
+    <section className={cn(blockBEM(direction), className)}>
+      <div className={contentBEM(isVisible ? 'visible' : 'hidden')}>{children}</div>
+      <button className={buttonBEM(direction)} onClick={handleToggle}>
         {isVisible ? arrow.visible : arrow.hidden}
       </button>
     </section>

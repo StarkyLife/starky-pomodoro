@@ -6,8 +6,9 @@ import {
   $restTimeConfig,
   $workTimeConfig,
 } from '../../../connector';
-import { ExpandableBlock } from '../../base/expadable-block';
+import { ExpandableBlock } from '../../base/expandable-block';
 import { Field } from '../../base/field';
+import { Form } from '../../base/form';
 import { Input } from '../../base/input';
 
 import './styles.css';
@@ -22,7 +23,7 @@ export const PomodoroConfiguration: React.FC = () => {
   return (
     <section className="configuration">
       <ExpandableBlock direction="left-right">
-        <form className="configuration__form">
+        <Form className="configuration__form">
           <Field text="Work">
             <Input
               className="configuration__input"
@@ -39,7 +40,7 @@ export const PomodoroConfiguration: React.FC = () => {
               onChange={handleRestTimeChanged}
             />
           </Field>
-        </form>
+        </Form>
       </ExpandableBlock>
     </section>
   );

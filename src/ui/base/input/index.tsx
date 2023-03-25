@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { cn } from '../../utils/classnames';
 
 import './styles.css';
 
@@ -17,7 +18,8 @@ export const Input: React.FC<Props> = ({ className, type, value, onChange }) => 
 
   return (
     <input
-      className={`input ${className ?? ''}`}
+      data-testid="input"
+      className={cn('input', className)}
       type={type}
       value={value}
       onChange={handleChange}
