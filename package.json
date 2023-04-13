@@ -7,9 +7,9 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky install",
+    "start:dev": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "start:prod": "yarn serve -s dist",
-    "dev": "webpack serve --config webpack.dev.js",
     "format": "pretty-quick",
     "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx}\" --ext .ts,.tsx",
     "ts:check": "tsc",

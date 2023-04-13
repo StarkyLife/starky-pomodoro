@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { Input } from './index';
@@ -23,7 +23,7 @@ describe('Input', () => {
 
     const { findByTestId, getByTestId } = render(<Container />);
 
-    await userEvent.type(getByTestId('input'), ' updated');
+    await act(() => userEvent.type(getByTestId('input'), ' updated'));
 
     const valueHolder = await findByTestId('valueId');
     expect(valueHolder).toHaveTextContent('initial update');
