@@ -1,0 +1,39 @@
+.expandable-block {
+  display: flex;
+
+  box-shadow: 2px 2px 18px gray;
+}
+.expandable-block--left-right {
+  width: fit-content;
+  height: 100%;
+
+  border-radius: 0 8px 8px 0;
+}
+.expandable-block--top-bottom {
+  width: 100%;
+  height: 100%;
+
+  flex-direction: column;
+
+  border-radius: 0 0 8px 8px;
+}
+
+.expandable-block__content {
+  background: white;
+}
+.expandable-block__content--hidden {
+  display: none;
+}
+
+.expandable-block__button {
+  cursor: pointer;
+  border: none;
+}
+.expandable-block__button--left-right {
+  height: 100%;
+  border-radius: 0 8px 8px 0;
+}
+.expandable-block__button--top-bottom {
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+}

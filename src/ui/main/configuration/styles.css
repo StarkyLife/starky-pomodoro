@@ -4,56 +4,16 @@
   top: 32px;
   bottom: 32px;
   z-index: 1;
-
-  display: flex;
-
-  box-shadow: 2px 2px 18px gray;
-  border-radius: 0 8px 8px 0;
-
-  background: white;
 }
 
-.configuration__toggler {
-  cursor: pointer;
-  height: 100%;
-  border: none;
-  border-radius: 0 8px 8px 0;
-}
-
-[class^='configuration__form'] {
+.configuration__form {
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  padding: 16px;
 }
 
-.configuration__form--hidden {
-  display: none;
-}
-
-.configuration__field {
-  width: 100%;
-  display: flex;
-  align-items: baseline;
-  font-size: 2rem;
-}
-
-.configuration__field:not(:last-child) {
-  margin-bottom: 16px;
-}
-
-.configuration__field span {
-  flex: 1;
-}
-
-.configuration__field input {
-  box-sizing: border-box;
-  margin-left: 1rem;
+.configuration__input {
   width: 96px;
-  padding: 8px;
-
-  border-radius: 16px;
 }

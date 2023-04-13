@@ -9,6 +9,7 @@ import {
 } from '../../../connector';
 import { getTimeText } from '../../../utils/time';
 import { PomodoroPhase } from '../../../core/types/pomodoro';
+import { RoundButton } from '../../base/round-button';
 
 import './styles.css';
 
@@ -34,11 +35,11 @@ export const PomodoroTimer: React.FC<{ currentPhase: PomodoroPhase }> = ({ curre
   const { minutes, seconds } = getTimeText(remainingTime);
 
   return (
-    <button className="timer" onClick={handleClick}>
-      <div>{currentPhase.type}</div>
-      <div>
+    <RoundButton onClick={handleClick}>
+      <div className="timer-text">{currentPhase.type}</div>
+      <div className="timer-text">
         {minutes}:{seconds}
       </div>
-    </button>
+    </RoundButton>
   );
 };
