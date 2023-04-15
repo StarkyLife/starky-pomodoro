@@ -14,6 +14,7 @@
     "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx}\" --ext .ts,.tsx",
     "ts:check": "tsc",
     "test": "jest",
+    "test:watch": "jest --watch",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

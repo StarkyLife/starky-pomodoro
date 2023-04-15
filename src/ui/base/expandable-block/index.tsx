@@ -30,7 +30,11 @@ export const ExpandableBlock: React.FC<Props> = ({ className, direction, childre
   return (
     <section className={cn(blockBEM(direction), className)}>
       <div className={contentBEM(isVisible ? 'visible' : 'hidden')}>{children}</div>
-      <button className={buttonBEM(direction)} onClick={handleToggle}>
+      <button
+        data-testid="expandable-block-toggler"
+        className={buttonBEM(direction)}
+        onClick={handleToggle}
+      >
         {isVisible ? arrow.visible : arrow.hidden}
       </button>
     </section>
