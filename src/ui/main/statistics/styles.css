@@ -7,6 +7,9 @@
 
 .statistics__content {
   padding: 16px;
+
+  color: var(--color-foreground);
+  background-color: var(--color-background);
 }
 
 .timeline {
@@ -40,11 +43,11 @@
 }
 
 .timeline__block--primary {
-  background: lightpink;
+  background: var(--color-info);
 }
 
 .timeline__block--secondary {
-  background: lightgreen;
+  background: var(--color-success);
 }
 
 .timeline__block > * {

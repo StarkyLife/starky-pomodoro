@@ -1,7 +1,7 @@
 .expandable-block {
   display: flex;
 
-  box-shadow: 2px 2px 18px gray;
+  box-shadow: 2px 2px 18px var(--color-muted);
 }
 .expandable-block--left-right {
   width: fit-content;
@@ -28,6 +28,12 @@
 .expandable-block__button {
   cursor: pointer;
   border: none;
+  background-color: var(--color-button-bg);
+  color: var(--color-button-fg);
+}
+.expandable-block__button:hover {
+  background-color: var(--color-button-hover-bg);
+  color: var(--color-button-hover-fg);
 }
 .expandable-block__button--left-right {
   height: 100%;

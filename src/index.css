@@ -1,12 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
 @import url('normalize.css');
 
+:root {
+  /* Base colors for background and text */
+  --color-background: #fbf1c7; /* Light Gruvbox background color */
+  --color-foreground: #3c3836; /* Light Gruvbox foreground text color */
+  --color-primary: #d79921; /* Gruvbox yellow, often used for highlights and important elements */
+  --color-secondary: #458588; /* Gruvbox blue, for secondary elements and accents */
+  --color-tertiary: #b16286; /* Gruvbox purple, for tertiary accents */
+
+  /* Semantic colors for UI elements */
+  --color-info: #83a598; /* Gruvbox aqua, for informational text and elements */
+  --color-success: #98971a; /* Gruvbox green, for success messages and icons */
+  --color-warning: #d79921; /* Gruvbox yellow, for warnings and cautions */
+  --color-error: #cc241d; /* Gruvbox red, for error messages and critical icons */
+
+  /* Button and interactive elements colors */
+  --color-button-bg: #d79921; /* Gruvbox yellow, used for button backgrounds */
+  --color-button-fg: #3c3836; /* Gruvbox text color, for text on buttons */
+  --color-button-hover-bg: #fabd2f; /* Gruvbox yellow, slightly lighter for hover state */
+  --color-button-hover-fg: #282828; /* Darker text color for button hover state */
+
+  /* Border and divider colors */
+  --color-border: #d5c4a1; /* Light Gruvbox brown, for borders and dividers */
+  --color-divider: #ebdbb2; /* Gruvbox light brown, for lighter dividers like hr elements */
+
+  /* Misc */
+  --color-highlight: #fb4934; /* Gruvbox red, for highlighting text or elements */
+  --color-muted: #bdae93; /* Muted text color for less important text */
+}
+
 body {
   margin: 0;
   font-family: 'Caveat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 16px;
+
+  color: var(--color-foreground);
+  background-color: var(--color-background);
 }
 
 code {

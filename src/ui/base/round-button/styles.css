@@ -12,6 +12,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  background-color: var(--color-button-bg);
+  color: var(--color-button-fg);
+}
+
+.round-button:hover {
+  background-color: var(--color-button-hover-bg);
+  color: var(--color-button-hover-fg);
 }
 
 .round-button::before {
@@ -20,9 +28,9 @@
   width: 330px;
   height: 330px;
   border-radius: 50%;
-  box-shadow: 2px 2px 18px gray;
+  box-shadow: 2px 2px 18px var(--color-muted);
 }
 
 .round-button:active {
-  box-shadow: inset 2px 2px 18px gray;
+  box-shadow: inset 2px 2px 18px var(--color-highlight);
 }
