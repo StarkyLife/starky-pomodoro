@@ -54,6 +54,8 @@ export const Statistics: React.FC = () => {
               className: `timeline__block--${s.phaseType === 'work' ? 'primary' : 'secondary'}`,
               start: getMinutesPosition(getDayMinutesFor(s.startTime)),
               end: getMinutesPosition(getDayMinutesFor(endTime)),
+              startTime: format(s.startTime, 'HH:mm'),
+              endTime: format(endTime, 'HH:mm'),
             }))
           )
         )
@@ -75,11 +77,12 @@ export const Statistics: React.FC = () => {
                 <span>{timeText}</span>
               </div>
             ))}
-            {statisticsView.map(({ className, start, end }) => (
+            {statisticsView.map(({ className, start, end, startTime, endTime }) => (
               <div
                 key={`stats-${start}-${end}`}
                 className={className}
                 style={{ left: `${start}%`, width: `${end - start}%` }}
+                title={`Start time:\t${startTime}\nEnd time:\t${endTime}`}
               ></div>
             ))}
             <div

@@ -45,9 +45,15 @@
 .timeline__block--primary {
   background: var(--color-info);
 }
+.timeline__block--primary:hover {
+  background: var(--color-highlight);
+}
 
 .timeline__block--secondary {
   background: var(--color-success);
+}
+.timeline__block--secondary:hover {
+  background: var(--color-highlight);
 }
 
 .timeline__block > * {
